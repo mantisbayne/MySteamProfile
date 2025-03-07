@@ -9,7 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private const val BASE_URL = "http://api.steampowered.com/"
+private const val BASE_URL = "https://api.steampowered.com/"
 
 val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())

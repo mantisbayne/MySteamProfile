@@ -12,25 +12,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mantisbayne.mysteamprofile.domain.usecase.GetOwnedGamesUseCase
 import com.mantisbayne.mysteamprofile.ui.theme.MySteamProfileTheme
 import com.mantisbayne.mysteamprofile.ui.viewmodel.SteamOwnedGamesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel by viewModels<SteamOwnedGamesViewModel> {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val useCase = GetOwnedGamesUseCase()
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val viewModel: SteamOwnedGamesViewModel = hiltViewModel()
             MySteamProfileTheme {
                 SteamOwnedGamesScreen(viewModel)
             }
@@ -38,18 +35,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun SteamOwnedGamesPreview() {
     MySteamProfileTheme {
-        Greeting("Android")
     }
 }
