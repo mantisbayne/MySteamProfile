@@ -3,6 +3,7 @@ package com.mantisbayne.mysteamprofile.ui.view
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,16 +28,21 @@ fun SteamOwnedGamesScreen(viewModel: SteamOwnedGamesViewModel) {
         viewModel.getOwnedGames()
     }
 
-    when (uiState) {
-        SteamOwnedGamesViewState.Empty -> EmptyStateMessage()
-        SteamOwnedGamesViewState.Loading -> LoadingIndicator()
-        is SteamOwnedGamesViewState.Error -> {
-            val state = uiState as SteamOwnedGamesViewState.Error
-            ErrorMessage(state.errorMessage)
+    Box(
+        modifier = Modifier.statusBarsPadding().padding(16.dp),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        when (uiState) {
+            SteamOwnedGamesViewState.Empty -> EmptyStateMessage()
+            SteamOwnedGamesViewState.Loading -> LoadingIndicator()
+            is SteamOwnedGamesViewState.Error -> {
+                val state = uiState as SteamOwnedGamesViewState.Error
+                ErrorMessage(state.errorMessage)
+            }
+            is SteamOwnedGamesViewState.Success -> OwnedGamesList(
+                games = (uiState as SteamOwnedGamesViewState.Success).games
+            )
         }
-        is SteamOwnedGamesViewState.Success -> OwnedGamesList(
-            games = (uiState as SteamOwnedGamesViewState.Success).games
-        )
     }
 }
 

@@ -8,12 +8,15 @@ class SteamOwnedGamesRepository {
     suspend fun getOwnedGames(steamId: String) =
         try {
             val response = Api.steamUserDataService.getOwnedGames(steamId)
-            Result.Success(response.games)
+            response.response?.let {
+                Result.Success(it.games)
+            } ?: Result.Empty
         } catch (e: Exception) {
             Result.Error(e)
         }
 
     sealed class Result<T> {
+        data object Empty : Result<Empty>()
         data class Error(val error: Throwable? = null) : Result<Error>()
         data class Success(val games: List<Game>?) : Result<Success>()
     }

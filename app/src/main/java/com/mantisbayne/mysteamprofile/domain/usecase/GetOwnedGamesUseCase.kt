@@ -15,6 +15,7 @@ class GetOwnedGamesUseCase(private val repository: SteamOwnedGamesRepository) {
         _viewState.value = SteamOwnedGamesViewState.Loading
         // hardcode for test user
         when (val result = repository.getOwnedGames("76561198397381690")) {
+            SteamOwnedGamesRepository.Result.Empty -> SteamOwnedGamesViewState.Empty
             is SteamOwnedGamesRepository.Result.Error -> handleError(result.error?.message)
             is SteamOwnedGamesRepository.Result.Success -> handleSuccess(result.games)
         }
