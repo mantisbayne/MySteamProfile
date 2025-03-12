@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 class GetOwnedGamesUseCase(private val repository: SteamOwnedGamesRepository) {
 
+    // TODO move view logic out of this use case
+    // Instead, return a domain state here and map to a displayable in the reducer
     private val _viewState = MutableStateFlow<SteamOwnedGamesViewState>(SteamOwnedGamesViewState.Loading)
     val viewState: StateFlow<SteamOwnedGamesViewState> = _viewState
 

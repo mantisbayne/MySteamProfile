@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.ui.text.google.fonts)
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.mockwebserver)
