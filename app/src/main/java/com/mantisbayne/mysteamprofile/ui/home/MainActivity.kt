@@ -18,7 +18,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            // colors are not applied, why
             val viewModel: SteamOwnedGamesViewModel = hiltViewModel()
             MySteamProfileTheme {
                 SteamOwnedGamesScreen(viewModel)

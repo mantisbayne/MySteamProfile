@@ -2,37 +2,29 @@ package com.mantisbayne.mysteamprofile.domain.usecase
 
 import com.mantisbayne.mysteamprofile.data.model.Game
 import com.mantisbayne.mysteamprofile.domain.repository.SteamOwnedGamesRepository
-import com.mantisbayne.mysteamprofile.ui.viewmodel.SteamOwnedGamesViewState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.mantisbayne.mysteamprofile.ui.viewmodel.OwnedGamesResult
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class GetOwnedGamesUseCase(private val repository: SteamOwnedGamesRepository) {
 
-    // TODO move view logic out of this use case
-    // Instead, return a domain state here and map to a displayable in the reducer
-    private val _viewState = MutableStateFlow<SteamOwnedGamesViewState>(SteamOwnedGamesViewState.Loading)
-    val viewState: StateFlow<SteamOwnedGamesViewState> = _viewState
-
-    suspend fun getOwnedGames() {
-        _viewState.value = SteamOwnedGamesViewState.Loading
+    fun getOwnedGames(): Flow<OwnedGamesResult> = flow {
+        emit(OwnedGamesResult.Loading)
         // hardcode for test user
         when (val result = repository.getOwnedGames("76561198397381690")) {
-            SteamOwnedGamesRepository.Result.Empty -> SteamOwnedGamesViewState.Empty
-            is SteamOwnedGamesRepository.Result.Error -> handleError(result.error?.message)
-            is SteamOwnedGamesRepository.Result.Success -> handleSuccess(result.games)
+            SteamOwnedGamesRepository.Result.Empty -> emit(OwnedGamesResult.Empty)
+            is SteamOwnedGamesRepository.Result.Error -> emit(handleError(result.error?.message))
+            is SteamOwnedGamesRepository.Result.Success -> emit(handleSuccess(result.games))
         }
     }
 
-    private fun handleError(message: String?) {
-        val error = message ?: "An unknown error occurred"
-        _viewState.value = SteamOwnedGamesViewState.Error(error)
-    }
+    private fun handleError(message: String?) =
+        OwnedGamesResult.Error(message ?: "An unknown error occurred")
 
-    private fun handleSuccess(result: List<Game>?) {
+    private fun handleSuccess(result: List<Game>?) =
         if (result.isNullOrEmpty()) {
-            _viewState.value = SteamOwnedGamesViewState.Empty
+            OwnedGamesResult.Empty
         } else {
-            _viewState.value = SteamOwnedGamesViewState.Success(result)
+            OwnedGamesResult.Success(result)
         }
-    }
 }

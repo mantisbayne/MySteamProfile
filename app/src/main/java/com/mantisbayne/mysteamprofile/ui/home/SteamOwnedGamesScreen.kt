@@ -22,17 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mantisbayne.mysteamprofile.data.model.Game
 import com.mantisbayne.mysteamprofile.ui.theme.AppTypography
+import com.mantisbayne.mysteamprofile.ui.viewmodel.GameUiModel
 import com.mantisbayne.mysteamprofile.ui.viewmodel.SteamOwnedGamesViewModel
-import com.mantisbayne.mysteamprofile.ui.viewmodel.SteamOwnedGamesViewState
+import com.mantisbayne.mysteamprofile.ui.viewmodel.OwnedGamesResult
 
 @Composable
 fun SteamOwnedGamesScreen(viewModel: SteamOwnedGamesViewModel) {
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        viewModel.getOwnedGames()
-    }
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.primary) {
         Box(
@@ -41,16 +38,14 @@ fun SteamOwnedGamesScreen(viewModel: SteamOwnedGamesViewModel) {
                 .padding(16.dp),
             contentAlignment = Alignment.TopCenter
         ) {
-            when (uiState) {
-                SteamOwnedGamesViewState.Empty -> EmptyStateMessage()
-                SteamOwnedGamesViewState.Loading -> LoadingIndicator()
-                is SteamOwnedGamesViewState.Error -> {
-                    val state = uiState as SteamOwnedGamesViewState.Error
-                    ErrorMessage(state.errorMessage)
+            when {
+                !viewState.emptyStateMessage.isNullOrEmpty() -> EmptyStateMessage()
+                viewState.loading -> LoadingIndicator()
+                !viewState.errorMessage.isNullOrEmpty() -> {
+                    ErrorMessage(viewState.errorMessage)
                 }
-
-                is SteamOwnedGamesViewState.Success -> OwnedGamesList(
-                    games = (uiState as SteamOwnedGamesViewState.Success).games
+                else -> OwnedGamesList(
+                    games = viewState.games
                 )
             }
         }
@@ -73,7 +68,7 @@ fun LoadingIndicator() {
 }
 
 @Composable
-fun OwnedGamesList(games: List<Game>, modifier: Modifier = Modifier) {
+fun OwnedGamesList(games: List<GameUiModel>, modifier: Modifier = Modifier) {
     LazyColumn(modifier) {
         items(games) { game ->
             Row(
@@ -82,16 +77,13 @@ fun OwnedGamesList(games: List<Game>, modifier: Modifier = Modifier) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // TODO: use a reducer to set playtime in ViewState
-                // row should be a view object
-                val playtimeInHours = game.playtime_forever / 60
                 Text(
-                    text = game.name,
+                    text = game.title,
                     style = AppTypography.bodyLarge,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "$playtimeInHours hours",
+                    text = game.playtime,
                     textAlign = TextAlign.End,
                     style = AppTypography.labelSmall
                 )
