@@ -13,18 +13,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mantisbayne.mysteamprofile.data.model.Game
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.mantisbayne.mysteamprofile.R
 import com.mantisbayne.mysteamprofile.ui.theme.AppTypography
 import com.mantisbayne.mysteamprofile.ui.viewmodel.GameUiModel
 import com.mantisbayne.mysteamprofile.ui.viewmodel.SteamOwnedGamesViewModel
-import com.mantisbayne.mysteamprofile.ui.viewmodel.OwnedGamesResult
 
 @Composable
 fun SteamOwnedGamesScreen(viewModel: SteamOwnedGamesViewModel) {
@@ -82,6 +84,7 @@ fun OwnedGamesList(games: List<GameUiModel>, modifier: Modifier = Modifier) {
                     style = AppTypography.bodyLarge,
                     modifier = Modifier.weight(1f)
                 )
+                GameIcon(gameUiModel = game)
                 Text(
                     text = game.playtime,
                     textAlign = TextAlign.End,
@@ -95,4 +98,17 @@ fun OwnedGamesList(games: List<GameUiModel>, modifier: Modifier = Modifier) {
 @Composable
 fun ErrorMessage(error: String?) {
     Text(text = error ?: "error message", modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
+fun GameIcon(gameUiModel: GameUiModel) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(gameUiModel.imageUrl)
+            .crossfade(true)
+            .build(),
+        error = painterResource(id = R.drawable.fallback_image),
+        placeholder = painterResource(id = R.drawable.fallback_image),
+        contentDescription = "Game icon",
+    )
 }

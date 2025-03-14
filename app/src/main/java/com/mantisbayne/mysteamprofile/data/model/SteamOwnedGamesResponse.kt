@@ -18,15 +18,15 @@ data class Game(
     val img_logo_url: String? = null,
     val has_community_visible_stats: Boolean = false
 ) {
-    fun getIconUrl(hash: String): String? {
-        return img_icon_url?.let { "http://media.steampowered.com/steamcommunity/public/images/apps/$appid/$hash.jpg" }
+    fun getIconUrl(): String? {
+        return img_icon_url?.let { "https://media.steampowered.com/steamcommunity/public/images/apps/$appid/$it.jpg" }
     }
 
     fun getLogoUrl(hash: String): String? {
-        return img_logo_url?.let { "http://media.steampowered.com/steamcommunity/public/images/apps/$appid/$hash.jpg" }
+        return img_logo_url?.let { "https://media.steampowered.com/steamcommunity/public/images/apps/$appid/$hash.jpg" }
     }
 
     fun getStatsUrl(steamId: String): String {
-        return "http://steamcommunity.com/profiles/$steamId/stats/$appid"
+        return "https://steamcommunity.com/profiles/$steamId/stats/$appid"
     }
 }

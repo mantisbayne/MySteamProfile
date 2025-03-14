@@ -6,17 +6,18 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.9.3"
-composeBom = "2024.10.01"
+activityCompose = "1.10.1"
+composeBom = "2025.03.00"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 moshi = "1.15.1"
 compose = "1.7.5"
+coil = "2.7.0"
 lifecycle = "2.8.7"
 mockwebserver = "4.9.3"
 hilt = "2.55"
 ksp = "2.1.0-1.0.29"
-hilt-navigation-compose = "1.0.0"
+hilt-navigation-compose = "1.2.0"
 uiTextGoogleFonts = "1.7.8"
 
 [libraries]
@@ -46,6 +47,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

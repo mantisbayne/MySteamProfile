@@ -18,7 +18,8 @@ class GameListViewStateReducer {
         games.map { game ->
             GameUiModel(
                 game.name,
-                mapPlaytime(game.playtime_forever)
+                mapPlaytime(game.playtime_forever),
+                game.getIconUrl()
             )
         }
 
