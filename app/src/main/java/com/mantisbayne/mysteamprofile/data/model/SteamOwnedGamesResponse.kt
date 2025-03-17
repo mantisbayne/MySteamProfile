@@ -22,8 +22,8 @@ data class Game(
         return img_icon_url?.let { "https://media.steampowered.com/steamcommunity/public/images/apps/$appid/$it.jpg" }
     }
 
-    fun getLogoUrl(hash: String): String? {
-        return img_logo_url?.let { "https://media.steampowered.com/steamcommunity/public/images/apps/$appid/$hash.jpg" }
+    fun getLogoUrl(): String? {
+        return img_logo_url?.let { "https://media.steampowered.com/steamcommunity/public/images/apps/$appid/$it.jpg" }
     }
 
     fun getStatsUrl(steamId: String): String {

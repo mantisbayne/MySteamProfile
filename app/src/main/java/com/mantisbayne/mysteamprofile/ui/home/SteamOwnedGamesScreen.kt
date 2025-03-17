@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,11 +22,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -80,7 +78,7 @@ fun LoadingIndicator() {
 
 @Composable
 fun OwnedGamesList(games: List<GameUiModel>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier.background(MaterialTheme.colorScheme.onTertiary)) {
+    LazyColumn(modifier.background(MaterialTheme.colorScheme.tertiary)) {
         items(games) { game ->
             Card(
                 Modifier
@@ -89,7 +87,7 @@ fun OwnedGamesList(games: List<GameUiModel>, modifier: Modifier = Modifier) {
                     .height(64.dp),
                 shape = RoundedCornerShape(8.dp),
                 elevation = CardDefaults.cardElevation(2.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiary)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onTertiaryContainer)
             ) {
                 Row(
                     Modifier
@@ -106,7 +104,7 @@ fun OwnedGamesList(games: List<GameUiModel>, modifier: Modifier = Modifier) {
                     )
                     Text(
                         text = game.playtime,
-                        style = AppTypography.labelSmall,
+                        style = AppTypography.bodyMedium,
                         modifier = Modifier.padding(end = 8.dp)
                     )
                 }
@@ -130,7 +128,7 @@ fun GameIcon(gameUiModel: GameUiModel) {
         error = painterResource(id = R.drawable.fallback_image),
         placeholder = painterResource(id = R.drawable.fallback_image),
         contentDescription = "Game icon",
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp).size(48.dp)
     )
 }
 
