@@ -116,6 +116,12 @@ fun GameListSection(games: List<GameUiModel>, navController: NavController, modi
 
 @Composable
 fun GameItemContent(game: GameUiModel, navController: NavController, modifier: Modifier) {
+    val args = GameDetailsArgs(
+        game.title,
+        game.playtime,
+        game.imageUrl,
+        game.lastPlayedDate
+    )
     Row(
         Modifier
             .padding(8.dp)
@@ -123,7 +129,7 @@ fun GameItemContent(game: GameUiModel, navController: NavController, modifier: M
             .clickable {
                 navController.currentBackStackEntry
                     ?.savedStateHandle
-                    ?.set("gameArgs", GameDetailsArgs("Elden Ring", "50h", "https://example.com/image.jpg", "2024-02-15"))
+                    ?.set("gameArgs", args)
 
                 navController.navigate("game_details")
             },
@@ -206,10 +212,6 @@ fun LoadingIndicatorPreview() {
 @Preview(showBackground = true)
 @Composable
 fun OwnedGamesListPreview() {
-    val fakeGames = listOf(
-        GameUiModel(title = "Game 1", playtime = "10 hours", imageUrl = "https://via.placeholder.com/150"),
-        GameUiModel(title = "Game 2", playtime = "20 hours", imageUrl = "https://via.placeholder.com/150")
-    )
 //    TODO
 }
 
@@ -224,8 +226,5 @@ fun ErrorMessagePreview() {
 @Preview(showBackground = true)
 @Composable
 fun GameIconPreview() {
-    val fakeGameUiModel = GameUiModel(title = "Test Game", playtime = "5 hours", imageUrl = "https://via.placeholder.com/150")
-    MySteamProfileTheme {
-        GameIcon(gameUiModel = fakeGameUiModel)
-    }
+
 }
