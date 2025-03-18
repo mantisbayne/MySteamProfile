@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MySteamProfile</string>
+    <string name="unknown_error">An unknown error occurred</string>
+    <string name="total_played">Total Played</string>
 </resources>

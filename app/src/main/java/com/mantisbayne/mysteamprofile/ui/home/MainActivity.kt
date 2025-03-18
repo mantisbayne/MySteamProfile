@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.mantisbayne.mysteamprofile.navigation.GameNavGraph
 import com.mantisbayne.mysteamprofile.ui.theme.MySteamProfileTheme
 import com.mantisbayne.mysteamprofile.ui.viewmodel.SteamOwnedGamesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,11 +20,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val viewModel: SteamOwnedGamesViewModel = hiltViewModel()
-            MySteamProfileTheme {
-                SteamOwnedGamesScreen(viewModel)
-            }
+            MyApp()
         }
+    }
+}
+
+@Composable
+fun MyApp() {
+    MySteamProfileTheme {
+        val navController = rememberNavController()
+        GameNavGraph(navController = navController)
     }
 }
 
