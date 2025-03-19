@@ -46,7 +46,7 @@ fun SteamOwnedGamesScreen(viewModel: SteamOwnedGamesViewModel, navController: Na
 
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    Surface(modifier = Modifier.fillMaxWidth(), color = MaterialTheme.colorScheme.tertiary) {
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.tertiary) {
         Box(
             modifier = Modifier
                 .statusBarsPadding()
@@ -122,6 +122,7 @@ fun GameItemContent(game: GameUiModel, navController: NavController, modifier: M
         game.imageUrl,
         game.lastPlayedDate
     )
+
     Row(
         Modifier
             .padding(8.dp)

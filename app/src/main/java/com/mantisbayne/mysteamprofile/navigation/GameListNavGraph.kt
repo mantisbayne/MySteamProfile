@@ -22,7 +22,7 @@ fun GameNavGraph(navController: NavHostController) {
                 ?.get<GameDetailsArgs>("gameArgs")
 
             args?.let {
-                GameDetailsScreen(it)
+                GameDetailsScreen(it, {})
             } ?: Text(text = "Error: No game details provided")
         }
     }

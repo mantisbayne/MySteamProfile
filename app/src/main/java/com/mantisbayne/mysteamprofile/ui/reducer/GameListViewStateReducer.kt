@@ -34,9 +34,10 @@ class GameListViewStateReducer {
         return if (playtimeForever == 0) {
             "Never played"
         } else {
-            val instant = Instant.ofEpochMilli(rtimeLastPlayed)
+            val instant = Instant.ofEpochMilli(rtimeLastPlayed * 1000)
             val timezone = instant.atZone(ZoneId.systemDefault())
-            val formatter = DateTimeFormatter.ofPattern("MMM dd yy", Locale.getDefault())
+            val formatter = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.getDefault())
+
             timezone.format(formatter)
         }
     }
