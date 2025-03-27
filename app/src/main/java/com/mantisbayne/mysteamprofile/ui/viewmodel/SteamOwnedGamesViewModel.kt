@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mantisbayne.mysteamprofile.domain.usecase.GetOwnedGamesUseCase
 import com.mantisbayne.mysteamprofile.ui.intent.GameListIntent
+import com.mantisbayne.mysteamprofile.ui.intent.GameSortType
 import com.mantisbayne.mysteamprofile.ui.reducer.GameListViewStateReducer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -44,8 +45,22 @@ class SteamOwnedGamesViewModel @Inject constructor(
                 when (intent) {
                     GameListIntent.Load -> loadGames()
                     is GameListIntent.ClickGame -> handleClick()
+                    is GameListIntent.SortGames -> updateViewStateForSort(intent.sortType)
                 }
             }
+        }
+    }
+
+    private fun updateViewStateForSort(sortType: GameSortType) {
+        _viewState.update { currentState ->
+            currentState.copy(games = sortGames(currentState.games, sortType))
+        }
+    }
+
+    private fun sortGames(games: List<GameUiModel>, sortType: GameSortType): List<GameUiModel> {
+        return when (sortType) {
+            GameSortType.ABC_ASC -> games.sortedBy { it.title }
+            else -> games.sortedByDescending { it.title }
         }
     }
 

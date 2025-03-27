@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,8 +38,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mantisbayne.mysteamprofile.R
 import com.mantisbayne.mysteamprofile.navigation.GameDetailsArgs
+import com.mantisbayne.mysteamprofile.ui.components.AppScaffold
+import com.mantisbayne.mysteamprofile.ui.components.AppSurface
 import com.mantisbayne.mysteamprofile.ui.theme.AppTypography
 import com.mantisbayne.mysteamprofile.ui.theme.MySteamProfileTheme
+import com.mantisbayne.mysteamprofile.ui.viewmodel.GameListViewState
 import com.mantisbayne.mysteamprofile.ui.viewmodel.GameUiModel
 import com.mantisbayne.mysteamprofile.ui.viewmodel.SteamOwnedGamesViewModel
 
@@ -46,9 +51,20 @@ fun SteamOwnedGamesScreen(viewModel: SteamOwnedGamesViewModel, navController: Na
 
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.tertiary) {
+    AppSurface {
+        GamesListContent(navController = navController, onSortClick = {}, viewState = viewState)
+    }
+}
+
+@Composable
+fun GamesListContent(
+    navController: NavController,
+    viewState: GameListViewState,
+    onSortClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .statusBarsPadding()
                 .padding(16.dp),
             contentAlignment = Alignment.Center
@@ -61,11 +77,11 @@ fun SteamOwnedGamesScreen(viewModel: SteamOwnedGamesViewModel, navController: Na
                 }
                 else -> OwnedGamesList(
                     games = viewState.games,
-                    navController
+                    onSortClick = onSortClick,
+                    navController = navController
                 )
             }
         }
-    }
 }
 
 @Composable
@@ -84,8 +100,35 @@ fun LoadingIndicator() {
 }
 
 @Composable
-fun OwnedGamesList(games: List<GameUiModel>, navController: NavController, modifier: Modifier = Modifier) {
+fun OwnedGamesList(
+    games: List<GameUiModel>,
+    navController: NavController,
+    onSortClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    HeaderSection(modifier, onSortClick)
     GameListSection(games = games, navController, modifier = modifier)
+}
+
+@Composable
+fun HeaderSection(modifier: Modifier, onSortClick: () -> Unit) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .background(MaterialTheme.colorScheme.onTertiaryContainer)
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onSortClick) {
+
+            }
+        }
+    }
 }
 
 @Composable
