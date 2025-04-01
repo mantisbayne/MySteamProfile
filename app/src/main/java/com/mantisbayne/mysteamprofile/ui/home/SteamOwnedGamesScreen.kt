@@ -40,6 +40,8 @@ import com.mantisbayne.mysteamprofile.R
 import com.mantisbayne.mysteamprofile.navigation.GameDetailsArgs
 import com.mantisbayne.mysteamprofile.ui.components.AppScaffold
 import com.mantisbayne.mysteamprofile.ui.components.AppSurface
+import com.mantisbayne.mysteamprofile.ui.components.EmptyStateMessage
+import com.mantisbayne.mysteamprofile.ui.components.LoadingIndicator
 import com.mantisbayne.mysteamprofile.ui.theme.AppTypography
 import com.mantisbayne.mysteamprofile.ui.theme.MySteamProfileTheme
 import com.mantisbayne.mysteamprofile.ui.viewmodel.GameListViewState
@@ -82,21 +84,6 @@ fun GamesListContent(
                 )
             }
         }
-}
-
-@Composable
-fun EmptyStateMessage() {
-    Text("So much empty", modifier = Modifier.fillMaxWidth())
-}
-
-@Composable
-fun LoadingIndicator() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        CircularProgressIndicator()
-    }
 }
 
 @Composable

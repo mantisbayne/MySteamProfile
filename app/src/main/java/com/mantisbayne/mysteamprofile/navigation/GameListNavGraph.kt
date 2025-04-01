@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.mantisbayne.mysteamprofile.ui.details.GameDetailsScreen
 import com.mantisbayne.mysteamprofile.ui.home.SteamOwnedGamesScreen
+import com.mantisbayne.mysteamprofile.ui.last2weeks.Last2WeeksScreen
 
 @Composable
 fun GameNavGraph(navController: NavHostController) {
@@ -24,6 +25,10 @@ fun GameNavGraph(navController: NavHostController) {
             args?.let {
                 GameDetailsScreen(it, {})
             } ?: Text(text = "Error: No game details provided")
+        }
+
+        composable("game_2weeks") {
+            Last2WeeksScreen(viewModel = hiltViewModel(), navController)
         }
     }
 }
